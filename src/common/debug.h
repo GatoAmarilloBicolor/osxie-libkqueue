@@ -43,7 +43,7 @@ extern int __thread_selfid();
 #endif
 
 #ifdef DARLING
-#include <darling/emulation/common/simple.h>
+#include <osxie/emulation/common/simple.h>
 #endif
 
 FILE* debug_file();

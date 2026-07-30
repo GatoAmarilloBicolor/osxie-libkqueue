@@ -18,22 +18,23 @@ cmake_minimum_required(VERSION 3.13)
 INCLUDE (CheckIncludeFiles)
 
 project(kqueue)
+include(osxie_lib)
 
-if (DARLING)
+if (OSXIE)
 	include_directories(
 		"${CMAKE_SOURCE_DIR}/src/external/xnu"
-		"${CMAKE_BINARY_DIR}/src/external/darlingserver/include"
-		"${CMAKE_SOURCE_DIR}/src/external/darlingserver/include"
+		"${CMAKE_BINARY_DIR}/src/external/osxieserver/include"
+		"${CMAKE_SOURCE_DIR}/src/external/osxieserver/include"
 	)
 	
 	# For epoll
-	include_directories("${CMAKE_SOURCE_DIR}/src/external/xnu/darling/src/libsystem_kernel/emulation/include/linux_premigration/ext")
+	include_directories("${CMAKE_SOURCE_DIR}/src/external/xnu/osxie/src/libsystem_kernel/emulation/include/linux_premigration/ext")
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -DHAVE_SYS_EVENTFD_H -DHAVE_SYS_SIGNALFD_H -DHAVE_SYS_TIMERFD_H -ggdb -O0")
 
 	#add_definitions(-DKERNEL_PRIVATE)
 	#add_definitions(-Dkqueue=kqueue_impl -Dkevent=kevent_impl -Dkevent64=kevent64_impl)
 	#add_definitions(-Dclose=__close_for_kqueue)
-endif (DARLING)
+endif (OSXIE)
 
 #files
 file(GLOB_RECURSE INCL include/*.h)
@@ -97,16 +98,16 @@ else()
 endif()
 source_group(src FILES ${SRC})
 
-if (DARLING)
-	file(GLOB SRC_DARLING
-		src/darling/*.h
-		src/darling/*.c
+if (OSXIE)
+	file(GLOB SRC_OSXIE
+		src/osxie/*.h
+		src/osxie/*.c
 	)
-	list (APPEND SRC ${SRC_DARLING})
+	list (APPEND SRC ${SRC_OSXIE})
 	add_definitions(
-		-DDARLING=1
+		-DOSXIE=1
 	)
-endif (DARLING)
+endif (OSXIE)
 
 #includes
 include_directories(
@@ -116,12 +117,12 @@ include_directories(
 #library (static or shared)
 option(STATIC_KQUEUE "Enable to build libkqueue as static lib" OFF)
 
-if (DARLING)
+if (OSXIE)
 	set (STATIC_KQUEUE ON)
-endif (DARLING)
+endif (OSXIE)
 
 if(STATIC_KQUEUE)
-	add_darling_object_library(kqueue ${SRC} ${INCL})
+	add_osxie_object_library(kqueue ${SRC} ${INCL})
 	make_fat(kqueue)
 else()
     add_library(kqueue SHARED ${SRC} ${INCL})
@@ -130,7 +131,7 @@ endif()
 if(WIN32)
 	set(LIB ${LIB} Ws2_32)
 endif()
-if(NOT WIN32 AND NOT DARLING)
+if(NOT WIN32 AND NOT OSXIE)
 	set(LIB ${LIB} pthread)
 endif()
 
@@ -141,4 +142,4 @@ if(KQUEUE_TESTS)
     add_subdirectory(test)
 endif()
 
-install(FILES kqueue.2 DESTINATION libexec/darling/usr/share/man/man2)
+install(FILES kqueue.2 DESTINATION libexec/osxie/usr/share/man/man2)

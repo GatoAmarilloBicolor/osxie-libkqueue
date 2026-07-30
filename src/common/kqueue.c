@@ -24,8 +24,8 @@
 
 #include "private.h"
 
-#ifdef DARLING
-#include "../darling/listenregistry.h"
+#ifdef OSXIE
+#include "../osxie/listenregistry.h"
 #endif
 
 int DEBUG_KQUEUE = 0;
@@ -263,8 +263,8 @@ kqueue_closed_fd(int fd)
 		free(context.kqs_to_check);
 	}
 
-#ifdef DARLING
-    __darling_kqueue_unregister_listen(fd);
+#ifdef OSXIE
+    __osxie_kqueue_unregister_listen(fd);
 #endif
 }
 
@@ -288,9 +288,9 @@ kqueue_dup(int oldfd, int newfd)
 
     pthread_mutex_unlock(&kq_mtx);
 
-#ifdef DARLING
-    if (__darling_kqueue_get_listen_status(oldfd))
-        __darling_kqueue_register_listen(newfd);
+#ifdef OSXIE
+    if (__osxie_kqueue_get_listen_status(oldfd))
+        __osxie_kqueue_register_listen(newfd);
 #endif
 }
 

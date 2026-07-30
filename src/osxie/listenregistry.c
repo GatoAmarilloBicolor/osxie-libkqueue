@@ -10,7 +10,7 @@ static size_t registry_vector_size = 0;
 
 #define REGISTRY_VECTOR_INITIAL_CAPACITY (8)
 
-bool __darling_kqueue_get_listen_status(int fd)
+bool __osxie_kqueue_get_listen_status(int fd)
 {
     bool result = false;
     pthread_mutex_lock(&registry_mtx);
@@ -27,7 +27,7 @@ bool __darling_kqueue_get_listen_status(int fd)
     return result;
 }
 
-void __darling_kqueue_register_listen(int fd)
+void __osxie_kqueue_register_listen(int fd)
 {
     pthread_mutex_lock(&registry_mtx);
 
@@ -56,7 +56,7 @@ quit:
     pthread_mutex_unlock(&registry_mtx);
 }
 
-void __darling_kqueue_unregister_listen(int fd)
+void __osxie_kqueue_unregister_listen(int fd)
 {
     pthread_mutex_lock(&registry_mtx);
 

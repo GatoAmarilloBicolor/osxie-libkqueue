@@ -19,8 +19,8 @@
 #include <pthread.h>
 #include "../common/private.h"
 
-#ifdef DARLING
-#include "../darling/listenregistry.h"
+#ifdef OSXIE
+#include "../osxie/listenregistry.h"
 #endif
 
 /*
@@ -374,10 +374,10 @@ linux_get_descriptor_type(struct knote *kn)
             case ENOTSOCK:   /* same as lsock = 0 */
                 return (0);
                 break;
-#ifdef DARLING
+#ifdef OSXIE
             /* Hack for WSL1 issue: https://github.com/microsoft/WSL/issues/8757 */
             case EINVAL:
-                lsock = __darling_kqueue_get_listen_status(kn->kev.ident);
+                lsock = __osxie_kqueue_get_listen_status(kn->kev.ident);
                 break;
 #endif
             default:
