@@ -42,7 +42,7 @@ struct filter;
 /*
  * Get the current thread ID
  */
-#ifdef DARLING
+#if defined(DARLING) || defined(OSXIE)
 #include <osxie/emulation/common/base.h>
 # define syscall __linux_syscall
 #else

@@ -29,6 +29,7 @@ if (OSXIE)
 	
 	# For epoll
 	include_directories("${CMAKE_SOURCE_DIR}/src/external/xnu/osxie/src/libsystem_kernel/emulation/include/linux_premigration/ext")
+	include_directories("${CMAKE_SOURCE_DIR}/src/external/xnu/osxie/src/libsystem_kernel/emulation/include")
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -DHAVE_SYS_EVENTFD_H -DHAVE_SYS_SIGNALFD_H -DHAVE_SYS_TIMERFD_H -ggdb -O0")
 
 	#add_definitions(-DKERNEL_PRIVATE)
@@ -93,8 +94,10 @@ else()
 		-D_XOPEN_SOURCE=600
 		-std=c99
 		-fvisibility=hidden
-		-D__linux__
 	)
+	if (NOT OSXIE)
+		add_definitions(-D__linux__)
+	endif()
 endif()
 source_group(src FILES ${SRC})
 

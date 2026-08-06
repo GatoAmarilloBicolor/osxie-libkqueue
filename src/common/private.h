@@ -40,6 +40,9 @@ struct evfilt_data;
 # if !defined(NDEBUG) && !defined(__GNUC__)
 #  include <crtdbg.h>
 # endif
+#elif defined(DARLING) || defined(OSXIE)
+# include "../posix/platform.h"
+# include "../linux/platform.h"
 #elif defined(__linux__)
 # include "../posix/platform.h"
 # include "../linux/platform.h"
@@ -50,7 +53,7 @@ struct evfilt_data;
 # error Unknown platform
 #endif
 
-#ifdef DARLING
+#if defined(DARLING) || defined(OSXIE)
 typedef int timer_t;
 int __close_for_kqueue(int fd);
 #endif

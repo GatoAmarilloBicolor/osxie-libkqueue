@@ -30,7 +30,7 @@
 #ifndef _SYS_EVENT_KQ_H_
 #define _SYS_EVENT_KQ_H_
 
-#ifdef DARLING
+#if defined(DARLING) || defined(OSXIE)
 #	include <sys/event.h>
 
 struct kevent_internal_s {

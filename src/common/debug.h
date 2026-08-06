@@ -28,7 +28,7 @@
 extern int DEBUG_KQUEUE;
 extern char *KQUEUE_DEBUG_IDENT;
 
-#if defined(DARLING)
+#if defined(DARLING) || defined(OSXIE)
 extern int __thread_selfid();
 # define THREAD_ID (__thread_selfid())
 #elif defined(__linux__)
@@ -42,7 +42,7 @@ extern int __thread_selfid();
 # error Unsupported platform
 #endif
 
-#ifdef DARLING
+#if defined(DARLING) || defined(OSXIE)
 #include <osxie/emulation/common/simple.h>
 #endif
 
